@@ -11,9 +11,9 @@ def load_args():
 
 def get_paths():
     # Get file locations
-    codebase = os.path.abspath(".")
+    source = os.path.abspath(".")
     work_dir = os.path.abspath(os.path.expanduser("~/.conduct"))
-    return codebase, work_dir
+    return source, work_dir
 
 def extract_secrets(secrets_file_path):
     # Load secrets into dict
@@ -21,10 +21,10 @@ def extract_secrets(secrets_file_path):
         secrets = yaml.safe_load(secrets_file)
     return secrets
 
-def sow(codebase, work_dir, secrets):
+def sow(source, work_dir, secrets):
     # Clone directory with secrets
-    for root, dirs, files in os.walk(codebase):
-        dest_root = root.replace(codebase, work_dir, 1)
+    for root, dirs, files in os.walk(source):
+        dest_root = root.replace(source, work_dir, 1)
         if not os.path.exists(dest_root):
             os.makedirs(dest_root)
         for file in files:
@@ -53,9 +53,9 @@ def compose(work_dir, docker_args):
 
 def run():
     secrets_file_path, docker_args = load_args()
-    codebase, work_dir = get_paths()
+    source, work_dir = get_paths()
     secrets = extract_secrets(secrets_file_path)
-    sow(codebase, work_dir, secrets)
+    sow(source, work_dir, secrets)
     compose(work_dir, docker_args)
 
 if __name__ == "__main__":
