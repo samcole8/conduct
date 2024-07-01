@@ -32,7 +32,7 @@ for root, dirs, files in os.walk(codebase):
                 if flag_start >= 0:
                     flag_end = flag_start + 7
                     secret_end = line.find('"', flag_end)
-                    key = line[flag_end:secret_end].lower()
+                    key = line[flag_end:secret_end].upper()
                     line = line[:flag_start] + secrets[key] + line[secret_end:]
                 dest_file.write(line)
 
