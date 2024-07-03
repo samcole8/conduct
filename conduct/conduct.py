@@ -7,7 +7,7 @@ import subprocess
 import shutil
 
 def load_args():
-    return sys.argv[1], sys.argv[2:]
+    return sys.argv[1], sys.argv[2]
 
 def get_paths():
     # Get file locations
@@ -41,22 +41,20 @@ def sow(source, work_dir, secrets):
                     dest_file.write(line)
 
 
-def compose(work_dir, docker_args):
+def execute(work_dir, command):
     # Run docker compose on skeleton dir
-    command = ['docker-compose', '--project-directory', f'"{work_dir}"', 'up'] + docker_args
-    command = " ".join(command)
-    process = subprocess.Popen(command, shell=True)
+    process = subprocess.Popen(command, shell=True, cwd=work_dir)
     process.wait()
 
     # Clean up
     shutil.rmtree(work_dir)
 
 def run():
-    secrets_file_path, docker_args = load_args()
+    secrets_file_path, command = load_args()
     source, work_dir = get_paths()
     secrets = extract_secrets(secrets_file_path)
     sow(source, work_dir, secrets)
-    compose(work_dir, docker_args)
+    execute(work_dir, command)
 
 if __name__ == "__main__":
     run()
