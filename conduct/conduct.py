@@ -35,7 +35,13 @@ def sow(source, work_dir, secrets):
                     flag_start = line.find("SECRET_")
                     if flag_start >= 0:
                         flag_end = flag_start + 7
-                        secret_end = line.find('"', flag_end)
+                        secret_end = line.find('"' or " ", flag_end)
+                        print(secret_end)
+                        if secret_end == -1:
+                            if "\n" in line:
+                                secret_end = len(line) - 1
+                            else:
+                                secret_end = len(line)
                         key = line[flag_end:secret_end].upper()
                         line = line[:flag_start] + secrets[key] + line[secret_end:]
                     dest_file.write(line)
