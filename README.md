@@ -2,7 +2,7 @@
 
 # Conduct
 
-Conduct is a secrets management tool and wrapper for Docker Compose. Define all your secrets in an external configuration file, reference them in your codebase, and have them dynamically parsed into a temporary build environment.
+Conduct is a simple secrets management tool. Define all your secrets in an external configuration file, reference them in your codebase, and have them dynamically parsed into a temporary execution environment, removed upon completion of your command.
 
 ## Usage
 
@@ -18,12 +18,14 @@ Conduct is a secrets management tool and wrapper for Docker Compose. Define all 
     password = "SECRET_MY_PASSWORD"
     ```
 
-- To deploy, use `conduct` instead of `docker-compose up`:
+- To execute your command, use `conduct`:
 
     ```bash
-    $ conduct /path/to/secrets.yml <docker-compose arguments>
+    $ conduct /path/to/secrets.yml "your command"
     ```
+
     e.g.,
+
      ```bash
-    $ conduct ../secrets.yml --build --force-recreate -d
+    $ conduct ../secrets.yml "docker compose up --build --force-recreate -d"
     ```
