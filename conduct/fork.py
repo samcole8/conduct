@@ -5,14 +5,18 @@ import os
 FLAG = "SECRET_"
 
 class Fork:
+    """Forks repository from source with embedded secrets."""
 
     def __init__(self, src, dst, secrets):
+        """Initialise Fork class."""
         self.src = src
         self.dst = dst
         self.secrets = secrets
 
     def __enter__(self):
+        """Clone source repository with embedded secrets."""
         def embed_secret(line):
+            """Embed secret in line if it contains a flag."""
             # Get position of secret
             flag_start = line.find(FLAG)
             if flag_start != -1:
@@ -47,9 +51,10 @@ class Fork:
         return self
 
     def __exit__(self, exc_type, exc_value, traceback):
+        """Remove the cloned repository."""
         shutil.rmtree(self.dst)
     
     def execute(self, command):
-        # Execute command
+        """Execute command in a shell."""
         process = subprocess.Popen(command, shell=True, cwd=self.dst)
         process.wait()
