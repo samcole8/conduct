@@ -15,6 +15,7 @@ import sys
 from fork import Fork
 from helpers import extract_yaml
 
+
 def get_paths():
     """Return required file paths."""
     # Get absolute current path
@@ -22,6 +23,7 @@ def get_paths():
     # Get absolute path to working directory
     dst = os.path.abspath(os.path.expanduser("~/.conduct"))
     return src, dst
+
 
 def run():
     """Gather CLI arguments, get secrets, and pass to Fork instance."""
@@ -31,6 +33,7 @@ def run():
     # Execute command in forked repository
     with Fork(src, dst, secrets) as fork:
         fork.execute(command)
+
 
 if __name__ == "__main__":
     run()
