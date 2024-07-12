@@ -4,8 +4,7 @@ import os
 def listdir(directory):
     """"""
     for item in os.listdir(directory):
-        item_full = os.path.join(directory, item)
-        yield item_full
+        yield os.path.join(directory, item)
 
 
 async def crawl(directory):
