@@ -1,38 +1,10 @@
 #!/bin/python3
 
-"""Package entrypoint.
-
-This module is responsible for gathering CLI arguments, extracting
-secrets from "secrets.yml" files, and creating an instance of the Fork
-class, passing the required parameters.
-
-Usage: python3 conduct.py /path/to/secrets.yml "your command here"
-"""
-
-import os
-import sys
-
-from fork import Fork
-from helpers import extract_yaml
-
-
-def get_paths():
-    """Return required file paths."""
-    # Get absolute current path
-    src = os.path.abspath(".")
-    # Get absolute path to working directory
-    dst = os.path.abspath(os.path.expanduser("~/.conduct"))
-    return src, dst
+"""Package entrypoint."""
 
 
 def run():
-    """Gather CLI arguments, get secrets, and pass to Fork instance."""
-    secrets_path, command = sys.argv[1], sys.argv[2]
-    secrets = extract_yaml(secrets_path)
-    src, dst = get_paths()
-    # Execute command in forked repository
-    with Fork(src, dst, secrets) as fork:
-        fork.execute(command)
+    print()
 
 
 if __name__ == "__main__":
